@@ -1,4 +1,4 @@
-from NeuralNetworkLayoutBuilder import *
+from NeuralNetworkBuilderAndRunner import *
 
 # The constant values used by some of the activation functions
 NNLB = NNLB(
@@ -17,12 +17,14 @@ print(NNLB.__getstate__())
 Model = [
     NNLB.IOLayer(2),
     NNLB.ReLU,
-    NNLB.layer(1),
+    NNLB.layer(3),
     NNLB.ReLU,
-    NNLB.IOLayer(1),
+    NNLB.IOLayer(3),
     NNLB.Binary
 ]
 
 # AndGate
 I = [[0,0], [0,1], [1,0], [1,1]] # Training Inputs
 O = [[0], [0], [0], [1]] # Expected Outputs
+
+NNLB.modelSave(Model)

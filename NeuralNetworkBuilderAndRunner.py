@@ -1,4 +1,6 @@
 from libraries import *
+from ModelCSVBuilder import *
+
 
 class NNLB: # NeuralNetworkLayoutBuilder
     """Lets you create a Neural Network Layout"""
@@ -26,16 +28,7 @@ class NNLB: # NeuralNetworkLayoutBuilder
             if x > 0:
                 y.append(x)
             else:
-                y.append(x*self.gradient)
-        return y
-
-    def PReLU(self, m: list, alpha: float = 0): # Learns a gradient during back probigation
-        y = []
-        for x, alphaVal in zip(m, alpha):
-            if x > 0:
-                y.append(x)
-            else:
-                y.append(x * alphaVal)
+                y.append(x*self.LeakyReLUgradient)
         return y
 
     def ELU(self, m: list): # A smooth gradient under 0#
@@ -109,17 +102,6 @@ class NNLB: # NeuralNetworkLayoutBuilder
     def Identity(self, m: list):
         return m
 
-#   Layer creators
-
-    def layer(self, length: int, minVal: int = -1, maxVal: int = 1, doRandom: bool = True):
-        if doRandom:
-            return [random.uniform(minVal, maxVal) for i in range(length)]
-        else:
-            return [0.0 for i in range(length)]
-
-    def IOLayer(self, length: int):
-        return [None for i in range(length)]
-
     def Binary(self, m: list):
         expValues = []
         for x in m:
@@ -137,6 +119,24 @@ class NNLB: # NeuralNetworkLayoutBuilder
             else:
                 y.append(0)
         return y
+
+#   Creates layers
+
+    def layer(self, length: int, minVal: int = -1, maxVal: int = 1, doRandom: bool = True):
+        if doRandom:
+            return [random.uniform(minVal, maxVal) for i in range(length)]
+        else:
+            return [0.0 for i in range(length)]
+
+    def IOLayer(self, length: int):
+        return [None for i in range(length)]
+
+#   SavesModel
+
+    def modelSave(self, model):
+        MJSONB = MJSON()
+        MJSONB.save(model)
+        MJSONB.saveWeights()
 
 
 if __name__ == "__main__":
