@@ -13,13 +13,15 @@ NNLB = NNLB(
 print(NNLB.__doc__)
 print(NNLB.__getstate__())
 
+Name = "AndGateAI" # Models Name
+
 # A List Containing your Models layout
 Model = [
     NNLB.IOLayer(2),
     NNLB.ReLU,
     NNLB.layer(3),
     NNLB.ReLU,
-    NNLB.IOLayer(3),
+    NNLB.IOLayer(1),
     NNLB.Binary
 ]
 
@@ -27,4 +29,5 @@ Model = [
 I = [[0,0], [0,1], [1,0], [1,1]] # Training Inputs
 O = [[0], [0], [0], [1]] # Expected Outputs
 
-NNLB.modelSave(Model)
+NNLB.modelSave(Model, Name)
+NNLB.modelRun(Model, I, O)

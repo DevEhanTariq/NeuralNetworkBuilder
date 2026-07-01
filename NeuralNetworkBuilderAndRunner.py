@@ -1,5 +1,7 @@
+import json5
+
 from libraries import *
-from ModelCSVBuilder import *
+from ModelJSON5Saver import *
 
 
 class NNLB: # NeuralNetworkLayoutBuilder
@@ -133,10 +135,19 @@ class NNLB: # NeuralNetworkLayoutBuilder
 
 #   SavesModel
 
-    def modelSave(self, model):
+    def modelSave(self, model, Name: str):
         MJSONB = MJSON()
-        MJSONB.save(model)
-        MJSONB.saveWeights()
+        MJSONB.save(model, Name)
+        MJSONB.saveWeights(Name)
+
+    def modelRun(self, model, Input, Output):
+        activationFunctions = []
+        for item in model:
+            if type(item) == type([]):
+                pass
+            else:
+                activationFunctions.append(item)
+        # Not finished
 
 
 if __name__ == "__main__":

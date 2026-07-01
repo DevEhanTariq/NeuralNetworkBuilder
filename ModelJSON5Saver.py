@@ -7,15 +7,15 @@ class MJSON: # Model CSV Builder
         self.layers: list = []
         self.weights: list = []
 
-    def save(self, model: list):
+    def save(self, model: list, Name: str):
         for item in model:
             if type(item) == type([]):
                 self.layers.append(item)
 
-        with open("ModelLayout/Layers.json5", "w") as f:
+        with open(f"ModelLayout/{Name}_Layers.json5", "w") as f:
             json5.dump(self.layers, f, indent=4)
 
-    def saveWeights(self):
+    def saveWeights(self, Name: str):
         for i in range(len(self.layers)-1):
             lengthNow = len(self.layers[i])
             lengthNext = len(self.layers[i+1])
@@ -26,7 +26,7 @@ class MJSON: # Model CSV Builder
             self.weights.append(n)
 
 
-        with open("ModelLayout/Weights.json5", "w") as f:
+        with open(f"ModelLayout/{Name}_Weights.json5", "w") as f:
             json5.dump(self.weights, f, indent=4)
 
 
