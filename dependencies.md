@@ -4,8 +4,6 @@
 - pip `pip install --upgrade pip`
 
 ### Imports:
-- NumPy
-`pip install numpy`
 - MatPlotLib
 `pip install matplotlib`
 - JSON5
