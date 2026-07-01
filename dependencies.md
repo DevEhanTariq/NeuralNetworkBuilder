@@ -6,8 +6,6 @@
 ### Imports:
 - NumPy
 `pip install numpy`
-- Pandas
-`pip install pandas`
 - MatPlotLib
 `pip install matplotlib`
 - JSON5

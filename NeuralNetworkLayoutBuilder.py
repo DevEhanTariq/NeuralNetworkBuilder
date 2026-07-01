@@ -1,16 +1,13 @@
-import math
-import random
-
 from libraries import *
 
 class NNLB: # NeuralNetworkLayoutBuilder
     """Lets you create a Neural Network Layout"""
 
-    def __init__(self):
-        self.LeakyReLUgradient = 0.01
-        self.ELUhyperperameter = 1.6732632423543772
-        self.SELUhyperperameter = 1.6732632423543772
-        self.BinaryTemperature = 0.5
+    def __init__(self, dictValues: dict = {'LeakyReLUgradient': 0.01, 'ELUhyperperameter': 1.6732632423543772, 'SELUhyperperameter': 1.6732632423543772, 'BinaryTemperature': 0.5}):
+        self.LeakyReLUgradient = dictValues['LeakyReLUgradient']
+        self.ELUhyperperameter = dictValues['ELUhyperperameter']
+        self.SELUhyperperameter = dictValues['SELUhyperperameter']
+        self.BinaryTemperature = dictValues['BinaryTemperature']
 
 #   A bunch of different Activation layers
 
