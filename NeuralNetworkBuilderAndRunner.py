@@ -130,7 +130,7 @@ class NNLB: # NeuralNetworkLayoutBuilder
         else:
             return [0.0 for i in range(length)]
 
-    def IOLayer(self, length: int):
+    def ILayer(self, length: int):
         return [None for i in range(length)]
 
 #   SavesModel
@@ -140,14 +140,49 @@ class NNLB: # NeuralNetworkLayoutBuilder
         MJSONB.save(model, Name)
         MJSONB.saveWeights(Name)
 
-    def modelRun(self, model, Input, Output):
+#   Runs Model
+
+    def loadModelVariables(self, model, Name: str):
         activationFunctions = []
+        layers = []
+        weights = []
+
+        with open(f"ModelLayout/{Name}_Layers.json5", "r") as f:
+            layers = json5.load(f)
+
+        with open(f"ModelLayout/{Name}_Weights.json5", "r") as f:
+            weights = json5.load(f)
+
         for item in model:
-            if type(item) == type([]):
-                pass
-            else:
+            if type(item) != type([]):
                 activationFunctions.append(item)
-        # Not finished
+
+        return (layers, weights, activationFunctions)
+
+
+
+    def modelRun(self, values, Input, Output, index: int = 0):
+        layers = values[0]
+        weights = values[1]
+        activationFunctions = values[2]
+        I = Input[index]
+        O = Output[index]
+
+        currentLayerValues = I
+
+        for i in range(len(layers)-1):
+            currentLayerValues = activationFunctions[i](currentLayerValues)
+            nextLayerBiases = layers[i+1]
+            nextLayerValues = []
+            for bias, WeightGroup in zip(nextLayerBiases, weights[i]):
+                total = bias
+                for j in range(len(WeightGroup)):
+                    total += WeightGroup[j]*currentLayerValues[j]
+                nextLayerValues.append(total)
+            currentLayerValues = nextLayerValues
+
+        currentLayerValues = activationFunctions[-1](currentLayerValues)
+        print(currentLayerValues)
 
 
 if __name__ == "__main__":

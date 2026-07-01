@@ -17,12 +17,12 @@ Name = "AndGateAI" # Models Name
 
 # A List Containing your Models layout
 Model = [
-    NNLB.IOLayer(2),
+    NNLB.ILayer(2),
     NNLB.ReLU,
-    NNLB.layer(3),
+    NNLB.layer(3, minVal=0),
     NNLB.ReLU,
-    NNLB.IOLayer(1),
-    NNLB.Binary
+    NNLB.layer(1, minVal=0),
+    NNLB.Identity
 ]
 
 # AndGate
@@ -30,4 +30,7 @@ I = [[0,0], [0,1], [1,0], [1,1]] # Training Inputs
 O = [[0], [0], [0], [1]] # Expected Outputs
 
 NNLB.modelSave(Model, Name)
-NNLB.modelRun(Model, I, O)
+ModelValues = NNLB.loadModelVariables(Model, Name)
+
+for i in range(len(I)):
+    NNLB.modelRun(ModelValues, I, O, index=i)
